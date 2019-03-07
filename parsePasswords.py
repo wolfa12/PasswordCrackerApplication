@@ -10,5 +10,3 @@ wordlist = []
 # loop through the file and add them into a list
 for line in file:
     wordlist.append(line)
-
-    
