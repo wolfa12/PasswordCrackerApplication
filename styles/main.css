@@ -1,0 +1,13 @@
+body {
+  background-color: #7f0000;
+  color: #FFFAFA
+}
+h1{
+    background-color: #7f0000;
+    color: #FFFAFA
+}
+.cards-extra{
+    max-width: 18rem;
+    display: inline-block;
+    margin: 10px;
+}
