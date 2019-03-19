@@ -23,27 +23,25 @@ def hello():
 @app.route('/run_brute_force', methods = ['POST','GET'])
 def brute_force_alg():
     #username, website, passwordlength, lengthparam, charset
-    passwordlength = request.form['passwordlength']
+    minpasswordlength = request.form['passwordlength1']
+    maxpasswordlength = request.form['passwordlength2']
     username = request.form['accusername']
-    lengthparam = request.form['lengthparam']
     charset = request.form['charset']
     website = request.form['website']
-    #return "helo world"
-    return render_template('result.html', username = username, password = "gobuckeyes")
-    # if website == "facebook":
-    #     length_parameter_check(username, passwordlength, charset)
+    if website == "Facebook":
+        password = length_parameter_check(username, minpasswordlength, charset, maxpasswordlength)
+    # elif website == "yahoo":
+        #password = length_parameter_check(username, passwordlength, charset)
+    return render_template('result.html', username = username, password = password)
 
-    # # elif website == "yahoo":
-    #     length_parameter_check(username, passwordlength, charset)
-
-def length_parameter_check(username, passwordlength, charset):
-        if lengthparam == "atmost":
-            print("1")
-        elif lengthparam == "exactly":
-            print("2")
-        elif lengthparam == "atmost":
-            print("3")
-        facebook_form_filler(email, "gobuckeyes")
+def length_parameter_check(username, minpasswordlength, charset, maxpasswordlength):
+        for x in range(1,int(minpasswordlength)+1):
+            for y in range(1,x+1):
+                print("test")
+        if(facebook_form_filler(username, "gobuckyes")):
+            return "gobuckeyes"
+        else:
+            return "fuck"
 def facebook_form_filler(email, password):
     br = mechanize.Browser()
     #br.set_all_readonly(False)    # allow everything to be written to

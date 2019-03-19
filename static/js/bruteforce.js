@@ -19,10 +19,15 @@ $(document).ready(function(){
 function validateform() {
     var accusername = document.forms["bruteforceform"]["accusername"].value;
     var charset = document.forms["bruteforceform"]["charset"].value;
-    var lengthparam = document.forms["bruteforceform"]["lengthparam"].value;
-    console.log("char set is     :"+charset)
-    if (accusername == "" || charset == "" || lengthparam == "") {
+    var pl1 = document.forms["bruteforceform"]["passwordlength1"].value;
+    var pl2 = document.forms["bruteforceform"]["passwordlength2"].value;
+    console.log("min length     :"+pl1)
+    console.log("max length     :"+pl2)
+    if (accusername == "" || charset == "") {
         alert("Please fill out all fields");
+        return false;
+    } else if(pl1>pl2){
+        alert("Password minimum length must be less than password maximum length")
         return false;
     }
     }
