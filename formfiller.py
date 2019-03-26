@@ -50,6 +50,9 @@ def generate(username, charset, length, word):
         if newword != None:
             return newword
     return None
+# methods for the dictionary algorithm 
+@app.route('/run_dictionary', methods = ['POST', 'GET'])
+def dictionary_alg():
 
 
 def facebook_form_filler(email, password):
@@ -59,7 +62,7 @@ def facebook_form_filler(email, password):
     br.set_handle_refresh(False)  # can sometimes hang without this
     response = br.open("https://www.facebook.com")
     br.form = list(br.forms())[0]
-    br.form.set_all_readonly(False) 
+    br.form.set_all_readonly(False)
     for control in br.form.controls:
         #print(control)
         if control.type == 'password':
