@@ -1,20 +1,42 @@
 $(document).ready(function(){
+  var calculateCombos = function(){
+    var minpasslength = $("#passwordlength1").val();
+    var maxpasslength = $("#passwordlength2").val();
+    var charsetLength = $("#setofchar").val().length;
+    if(maxpasslength<minpasslength){
+      alert("Maximum length must be greater than minimum length")
+    } else{
+      var total = 0;
+      while(minpasslength<=maxpasslength){
+        total+=Math.pow(charsetLength, minpasslength)
+        minpasslength++;
+      }
+      $("#combos").text("Number of Combinations: "+total);
+      alert("working")
+    }
+    
+  }
   $("#numberscheck").click(function(){
    $("#setofchar").val(function(i, origText){
     return origText + "1234567890";
   });
+  calculateCombos()
   });
     $("#letterscheck").click(function(){
    $("#setofchar").val(function(i, origText){
     return origText + "abcdefghijklmnopqrstuvwxyz";
   });
+  calculateCombos();
   });
+  $("#setofchar").val(function(i, origText){
     $("#specialcharcheck").click(function(){
-   $("#setofchar").val(function(i, origText){
-    return origText + "!@#$%^&*(){}[]+=_-:;'?/>.<,"+'"';
+        return origText + "!@#$%^&*(){}[]+=_-:;'?/>.<,"+'"';
+      });
+      calculateCombos();
   });
-  });
-
+  $("#passwordlength1").change(calculateCombos);
+  $("#passwordlength2").change(calculateCombos);
+  $("#setofchar").change(calculateCombos)
 });
 function validateform() {
     var accusername = document.forms["bruteforceform"]["accusername"].value;

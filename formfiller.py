@@ -62,7 +62,7 @@ def generate(username, charset, length, word):
 # methods for the dictionary algorithm 
 @app.route('/run_dictionary', methods = ['POST', 'GET'])
 def dictionary_alg():
-
+    print("dictionary")
 
 def facebook_form_filler(email, password):
     br = mechanize.Browser()
