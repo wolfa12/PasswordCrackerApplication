@@ -42,8 +42,6 @@ function validateform() {
     var charset = document.forms["bruteforceform"]["charset"].value;
     var pl1 = document.forms["bruteforceform"]["passwordlength1"].value;
     var pl2 = document.forms["bruteforceform"]["passwordlength2"].value;
-    console.log("min length     :"+pl1)
-    console.log("max length     :"+pl2)
     if (accusername == "" || charset == "") {
         alert("Please fill out all fields");
         return false;
