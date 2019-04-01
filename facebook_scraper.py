@@ -4,10 +4,11 @@ import requests
 from bs4 import BeautifulSoup
 
 facebookpage_url = 'https://www.facebook.com/tara.bite.33'
+# need to do error handling here 
 response = requests.get(facebookpage_url)
 html = response.content
 
-soup = BeautifulSoup(html)
+soup = BeautifulSoup(html, features="lxml")
 #print(soup.prettify())
 
 # write to a file (for testing)
