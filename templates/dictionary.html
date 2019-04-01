@@ -26,18 +26,17 @@
             </select>
         </div>
         <div class = "form-formatting bold-font">
-            <p>Select characters to test. Click on a word to add the corresponding set. Customize it using the text area</p>
+            <p>Use the diciontary below to test username against commonly used passwords or create your own dictionary by modifying the textbox. Seperate words with spaces. Click below to restart to the original dictionary</p>
         </div>
         <div class = "form-formatting">
-            <p id = "numberscheck">Restart dictionary</p>
+            <p id = "restart">Restart dictionary</p>
         </div>
         <div class="form-group form-formatting">
-            <label for="setofchar">Characters</label>
-            <textarea class="form-control" id="setofchar" rows="3" name="charset">{% for row in rows %}{{row['passwords']}} {% endfor %}</textarea>
+            <label for="dictionary">Dictionary Words</label>
+            <textarea class="form-control dictionary" id="dictionary" rows="15" name="charset">{% for row in rows %}{{row['passwords']}} {% endfor %}</textarea>
         </div>
-        <input type="submit" class="btn btn-dark form-formatting" id = "bfsubmit"></button>
-    </form> 
-    <p id = "combos">Number of Combinations: </p>     
+        <input type="submit" class="btn btn-dark form-formatting"  id = "bfsubmit"></button>
+    </form>     
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

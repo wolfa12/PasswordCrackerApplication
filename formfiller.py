@@ -19,9 +19,7 @@ def dictionary():
     cur = con.cursor()
     cur.execute("select * from PASSWORDS")
     
-    rows = cur.fetchall();
-    for row in rows:
-        print(row['passwords']) 
+    rows = cur.fetchall()
     return render_template('dictionary.html', rows = rows)
 @app.route('/rainbow')
 def rainbow():
@@ -90,7 +88,6 @@ def yahoo_form_filler(email, password):
     br = mechanize.Browser()
     br.set_handle_robots(False)   # no robots
     br.set_handle_refresh(False)  # can sometimes hang without this
-    print("made it here")
     response = br.open("https://login.yahoo.com/config/login?.src=fpctx&.intl=us&.lang=en-US&.done=https%3A%2F%2Fwww.yahoo.com")
     br.form = list(br.forms())[0]
     # for control in br.form.controls:
