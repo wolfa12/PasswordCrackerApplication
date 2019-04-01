@@ -12,7 +12,6 @@ $(document).ready(function(){
         minpasslength++;
       }
       $("#combos").text("Number of Combinations: "+total);
-      alert("working")
     }
     
   }
@@ -28,8 +27,8 @@ $(document).ready(function(){
   });
   calculateCombos();
   });
-  $("#setofchar").val(function(i, origText){
     $("#specialcharcheck").click(function(){
+      $("#setofchar").val(function(i, origText){
         return origText + "!@#$%^&*(){}[]+=_-:;'?/>.<,"+'"';
       });
       calculateCombos();

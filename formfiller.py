@@ -1,4 +1,5 @@
 import mechanize
+import sqlite3
 from flask import Flask, render_template, request
 app = Flask(__name__)
 @app.errorhandler(500)
@@ -12,7 +13,16 @@ def bruteforce():
     return render_template('bruteforce.html')
 @app.route('/dictionary')
 def dictionary():
-    return render_template('dictionary.html')
+    con = sqlite3.connect("passwords1.db")
+    con.row_factory = sqlite3.Row
+    
+    cur = con.cursor()
+    cur.execute("select * from PASSWORDS")
+    
+    rows = cur.fetchall();
+    for row in rows:
+        print(row['passwords']) 
+    return render_template('dictionary.html', rows = rows)
 @app.route('/rainbow')
 def rainbow():
     return render_template('rainbow.html')
@@ -72,17 +82,29 @@ def facebook_form_filler(email, password):
     response = br.open("https://www.facebook.com")
     br.form = list(br.forms())[0]
     br.form.set_all_readonly(False)
-    for control in br.form.controls:
-        #print(control)
-        if control.type == 'password':
-            print("found password")
-
-        if control.type == 'email':
-            print("found email")
-        #print("type={}, name={}".format(control.type, control.name))
     br.form['email'] = email
     br.form['pass'] = password
     result = br.submit(id='u_0_2')
     return result.geturl() == "https://www.facebook.com/"
+def yahoo_form_filler(email, password):
+    br = mechanize.Browser()
+    br.set_handle_robots(False)   # no robots
+    br.set_handle_refresh(False)  # can sometimes hang without this
+    print("made it here")
+    response = br.open("https://login.yahoo.com/config/login?.src=fpctx&.intl=us&.lang=en-US&.done=https%3A%2F%2Fwww.yahoo.com")
+    br.form = list(br.forms())[0]
+    # for control in br.form.controls:
+    #     print(control)
+    #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
+    br.form['username'] = email
+    result = br.submit(id = 'login-signin')
+    print(result)
+    print(result.geturl())
+    response1 = br.open(result.geturl())
+    # br.form = list(br.forms())[0]
+    # for control in br.form.controls:
+    #     print(control)
+    #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
 
 print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
+yahoo_form_filler("tarabite@yahoo.com","gobuckeyes")

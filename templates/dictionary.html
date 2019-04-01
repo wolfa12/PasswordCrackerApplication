@@ -4,10 +4,40 @@
     <title>Dictionary</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/styles/main.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script async src="../static/js/index.js"></script>
+    <script async src="../static/js/dictionary.js"></script>
   </head>
   <body>
-    <h1>Password Cracker</h1>       
+    <h1>Dictionary</h1> 
+    <form action =  "http://localhost:5000/run_dictionary" method = "POST" onsubmit = "return validateform()" name = "dictionaryform">
+        <div class="form-group form-formatting bold-font">
+            <label for="accusername">Username/Email address</label>
+            <input type="email" class="form-control" id="accusername" placeholder="name@example.com" name="accusername">
+        </div>
+        <div class="form-group form-formatting bold-font">
+            <label for="website">Website to try</label>
+            <select class="form-control" id="website" name = "website">
+            <option>Facebook</option>
+            <option>Yahoo (doesn't work rn)</option>
+            <option>More to come?</option>
+            <option>More to come?</option>
+            <option>More to come?</option>
+            </select>
+        </div>
+        <div class = "form-formatting bold-font">
+            <p>Select characters to test. Click on a word to add the corresponding set. Customize it using the text area</p>
+        </div>
+        <div class = "form-formatting">
+            <p id = "numberscheck">Restart dictionary</p>
+        </div>
+        <div class="form-group form-formatting">
+            <label for="setofchar">Characters</label>
+            <textarea class="form-control" id="setofchar" rows="3" name="charset">{% for row in rows %}{{row['passwords']}} {% endfor %}</textarea>
+        </div>
+        <input type="submit" class="btn btn-dark form-formatting" id = "bfsubmit"></button>
+    </form> 
+    <p id = "combos">Number of Combinations: </p>     
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
