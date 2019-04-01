@@ -15,10 +15,8 @@ def bruteforce():
 def dictionary():
     con = sqlite3.connect("passwords1.db")
     con.row_factory = sqlite3.Row
-    
     cur = con.cursor()
     cur.execute("select * from PASSWORDS")
-    
     rows = cur.fetchall()
     return render_template('dictionary.html', rows = rows)
 @app.route('/rainbow')
@@ -67,7 +65,7 @@ def generate(username, charset, length, word):
         if newword != None:
             return newword
     return None
-# methods for the dictionary algorithm 
+# methods for the dictionary algorithm
 @app.route('/run_dictionary', methods = ['POST', 'GET'])
 def dictionary_alg():
     print("dictionary")
