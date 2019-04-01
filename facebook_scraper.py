@@ -8,4 +8,9 @@ response = requests.get(facebookpage_url)
 html = response.content
 
 soup = BeautifulSoup(html)
-print(soup.prettify())
+#print(soup.prettify())
+
+# write to a file (for testing)
+file = open("testfile.txt", "w")
+file.write(soup.prettify())
+file.close()
