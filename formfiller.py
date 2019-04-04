@@ -22,6 +22,9 @@ def dictionary():
 @app.route('/rainbow')
 def rainbow():
     return render_template('rainbow.html')
+@app.route('/passwordstrengthchecker')
+def passwordstrength():
+    return render_template('passwordstrengthchecker.html')
 @app.route('/hybrid')
 def hybrid():
     return render_template('hybrid.html')
@@ -80,6 +83,11 @@ def dictionary_alg():
         return render_template('result.html',username = "tarabite@yahoo.com", password = "ggggggoo")
     else:
         return render_template('500_bf.html')
+
+@app.route('/run_passwordchecker', methods = ['POST', 'GET'])
+def passwordchecker_alg():
+    return render_template('passwordstrengthchecker.html')
+
 
 def facebook_form_filler(email, password):
     br = mechanize.Browser()
