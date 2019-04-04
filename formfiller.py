@@ -23,7 +23,7 @@ def dictionary():
 def rainbow():
     return render_template('rainbow.html')
 @app.route('/passwordstrengthchecker')
-def passwordstrength():
+def passwordstrengthchecker():
     return render_template('passwordstrengthchecker.html')
 @app.route('/hybrid')
 def hybrid():

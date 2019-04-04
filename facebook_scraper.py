@@ -2,8 +2,9 @@ import facebook
 import requests
 
 token = 'EAAFymtofpnUBAEPAMB2XFYMdzdFZCPBexzOcKUX1d3JAKlULvlJjbSOjas5ZCSdQ0ylJu0V7gsa1gMEJK26IvudioCWPG32RWJh0B9I1KeAogW6Ebemsk7juA6WZAoha7nZCNoZAOOUyrs8ooa6ZBulifFtJh15rlbTqxSrl0sxAZDZD'
-v3.2
+
 graph = facebook.GraphAPI(access_token, version = 3.2)
+
 
 # old version
 # from urllib2 import urlopen
