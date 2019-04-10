@@ -88,7 +88,7 @@ def dictionary_alg():
 def passwordchecker_alg():
     return render_template('passwordstrengthchecker.html')
 
-
+# fill the form for facebook profiles
 def facebook_form_filler(email, password):
     br = mechanize.Browser()
     #br.set_all_readonly(False)    # allow everything to be written to
@@ -101,6 +101,7 @@ def facebook_form_filler(email, password):
     br.form['pass'] = password
     result = br.submit(id='u_0_2')
     return result.geturl() == "https://www.facebook.com/"
+# fill the form for yahoo profiles
 def yahoo_form_filler(email, password):
     br = mechanize.Browser()
     br.set_handle_robots(False)   # no robots
@@ -119,6 +120,24 @@ def yahoo_form_filler(email, password):
     # for control in br.form.controls:
     #     print(control)
     #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
+
+# fill the form for reddit profile
+def reddit_form_filler(email, password):
+    br = mechanize.Browser()
+    br.set_handle_robots(False)
+    br.set_handle_refresh(False)
+    response = br.open("https://www.reddit.com")
+    br.form = list(br.forms())[0]
+
+
+    # response = br.open("https://www.facebook.com")
+    # br.form = list(br.forms())[0]
+    # br.form.set_all_readonly(False)
+    # br.form['email'] = email
+    # br.form['pass'] = password
+    # result = br.submit(id='u_0_2')
+    # return result.geturl() == "https://www.facebook.com/" 
+
 
 print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
 yahoo_form_filler("tarabite@yahoo.com","gobuckeyes")

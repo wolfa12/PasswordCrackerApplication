@@ -28,7 +28,10 @@ html = response.content
 
 soup = BeautifulSoup(html, features="lxml")
 #print(soup.prettify())
-# do more here of course 
+# do more here of course
+
+# get the titles
+# <ul class="uiList fbProfileEditExperiences _4kg _4ks"> - contains major and school 
 
 # write to a file (for testing)
 file = open("testfile.txt", "w")
