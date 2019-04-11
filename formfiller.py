@@ -26,7 +26,12 @@ def rainbow():
 @app.route('/passwordstrengthchecker')
 def passwordstrengthchecker():
     return render_template('passwordstrengthchecker.html')
-@app.route('/hybrid')
+@app.route('/hybrid', methods = ['POST', 'GET'])
+def hybrid():
+    username = request.form['accusername']
+    charset = request.form['charset']
+    website = request.form['website']
+
 def hybrid():
     return render_template('hybrid.html')
 @app.route('/hello')
