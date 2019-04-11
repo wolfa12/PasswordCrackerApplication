@@ -1,5 +1,6 @@
 import mechanize
 import sqlite3
+import requests
 from flask import Flask, render_template, request
 app = Flask(__name__)
 @app.errorhandler(500)
@@ -123,21 +124,26 @@ def yahoo_form_filler(email, password):
 
 # fill the form for reddit profile
 def reddit_form_filler(email, password):
-    br = mechanize.Browser()
-    br.set_handle_robots(False)
-    br.set_handle_refresh(False)
-    response = br.open("https://www.reddit.com")
-    br.form = list(br.forms())[0]
-
-
-    # response = br.open("https://www.facebook.com")
+    # attempt with requests
+    s = requests.Session()
+    l = s.post('http://reddit.com/login', {'user':email,'passwd':password,'rem':True})
+    r = s.get('http://reddit.com/login')
+    print(r.json())
+    # br = mechanize.Browser()
+    # br.set_handle_robots(False)
+    # br.set_handle_refresh(False)
+    # response = br.open("https://www.reddit.com")
     # br.form = list(br.forms())[0]
-    # br.form.set_all_readonly(False)
-    # br.form['email'] = email
-    # br.form['pass'] = password
-    # result = br.submit(id='u_0_2')
-    # return result.geturl() == "https://www.facebook.com/" 
-
+    #
+    #
+    # # response = br.open("https://www.facebook.com")
+    # # br.form = list(br.forms())[0]
+    # # br.form.set_all_readonly(False)
+    # # br.form['email'] = email
+    # # br.form['pass'] = password
+    # # result = br.submit(id='u_0_2')
+    # # return result.geturl() == "https://www.facebook.com/"
+    #
 
 print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
 yahoo_form_filler("tarabite@yahoo.com","gobuckeyes")
