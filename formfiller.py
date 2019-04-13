@@ -2,6 +2,8 @@ import mechanize
 import sqlite3
 import requests, smtplib, ssl
 from flask import Flask, render_template, request
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 app = Flask(__name__)
 @app.errorhandler(500)
 def internal_service_error_bf(e):
@@ -33,7 +35,7 @@ def hybrid( ):
     cur = con.cursor()
     cur.execute("select * from PASSWORDS")
     rows = cur.fetchall()
-
+    form = request.form
     username = request.form['accusername']
     charset = request.form['charset']
     website = request.form['website']
@@ -99,21 +101,53 @@ def passwordchecker_alg():
     return render_template('passwordstrengthchecker.html')
 @app.route('/run_phising', methods = ['POST','GET'])
 def phising_alg():
-    port = 587  # For starttls
-    smtp_server = "smtp.gmail.com"
-    sender_email = "actualnotfaketwitter@gmail.com"
-    receiver_email = "johnson.6973@osu.edu"
+    # Create message container - the correct MIME type is multipart/alternative here!
+    MESSAGE = MIMEMultipart('alternative')
+    MESSAGE['subject'] = "URGENT: PASSWORD COMPROMISED"
+    MESSAGE['To'] = request.form["accusername"]
+    MESSAGE['From'] = "actualnotfaketwitter@gmail.com"
+    BODY = """
+    <p>Valued User,</p>
+    <p>We have detected suspicious activity on you're account. Use the link below to reset your password to avoid having your data compromised.</p><p><a href='https://bit.ly/2IfdmqE'>Twitter Login - Password Reset</a> </p>
+    """
+    # Record the MIME type text/html
+    HTML_BODY = MIMEText(BODY, 'html')
+ 
+    # Attach parts into message container.
+    # According to RFC 2046, the last part of a multipart message, in this case
+    # the HTML message, is best and preferred.
+    MESSAGE.attach(HTML_BODY)
+ 
+    # The actual sending of the e-mail
+    server = smtplib.SMTP('smtp.gmail.com:587')
+ 
+    # Print debugging output when testing
+    if __name__ == "__main__":
+        server.set_debuglevel(1)
+ 
+    # Credentials (if needed) for sending the mail
     password = "g0buckeyes"
-    SUBJECT = "URGENT: PASSWORD COMPROMISED"
-    TEXT = "Valued User,\nWe have detected suspicious activity on you're account. Update your password to avoid your data being compromised."
-    message = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)
-    context = ssl.create_default_context()
-    with smtplib.SMTP(smtp_server, port) as server:
-        server.ehlo()  # Can be omitted
-        server.starttls(context=context)
-        server.ehlo()  # Can be omitted
-        server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message)
+ 
+    server.starttls()
+    server.login("actualnotfaketwitter@gmail.com",password)
+    server.sendmail("actualnotfaketwitter@gmail.com", [request.form["accusername"]], MESSAGE.as_string())
+    server.quit()
+    # receiver_email = request.form["accusername"]
+    # port = 587  # For starttls
+    # smtp_server = "smtp.gmail.com"
+    # sender_email = "actualnotfaketwitter@gmail.com"
+    # password = "g0buckeyes"
+    # SUBJECT = "URGENT: PASSWORD COMPROMISED"
+    # TEXT = "Valued User,\n\nWe have detected suspicious activity on you're account. Use the link below to reset your password to avoid having your data compromised.\n\n<a href='https://bit.ly/2IfdmqE'>Twitter Login - Password Reset</a>"
+    # msg = MIMEText(TEXT ,'html')
+    # message = 'Subject: {}\n\n{}'.format(SUBJECT, msg)
+    # context = ssl.create_default_context()
+    # with smtplib.SMTP(smtp_server, port) as server:
+    #     server.ehlo()  # Can be omitted
+    #     server.starttls(context=context)
+    #     server.ehlo()  # Can be omitted
+    #     server.login(sender_email, password)
+    #     server.sendmail(sender_email, receiver_email, message)
 
     print("sent")
     return render_template('passwordstrengthchecker.html')
