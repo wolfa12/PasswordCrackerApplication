@@ -2,7 +2,7 @@
 # used https://www.w3schools.com/python/default.asp
 
 # add in the pre-defined dictionary
-def add_prev:
+def add_predefine:
     # open text file of the most common passwords
     file = open("passwords.txt", "r")
     # create list

