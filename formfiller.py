@@ -29,7 +29,7 @@ def rainbow():
 def passwordstrengthchecker():
     return render_template('passwordstrengthchecker.html')
 @app.route('/hybrid', methods = ['POST', 'GET'])
-def hybrid( ):
+def hybrid():
     con = sqlite3.connect("passwords1.db")
     con.row_factory = sqlite3.Row
     cur = con.cursor()
