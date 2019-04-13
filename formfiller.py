@@ -229,7 +229,7 @@ def reddit_form_filler(email, password):
     #     print(control)
     #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
 
-#print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
+print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
 #instagram_form_filler("tarabite@yahoo.com","gobuckeyes")
 #print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
 #yahoo_form_filler("tarabite@yahoo.com","gobuckeyes")
