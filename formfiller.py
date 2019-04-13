@@ -153,7 +153,7 @@ def phising_alg():
     #     server.sendmail(sender_email, receiver_email, message)
 
     print("sent")
-    return render_template('passwordstrengthchecker.html')
+    return render_template('emailsent.html')
 
 # fill the form for facebook profiles
 def facebook_form_filler(email, password):
