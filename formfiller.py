@@ -95,17 +95,20 @@ def facebook_form_filler(email, password):
     br.form['pass'] = password
     result = br.submit(id='u_0_2')
     return result.geturl() == "https://www.facebook.com/"
-def yahoo_form_filler(email, password):
+def instagram_form_filler(email, password):
     br = mechanize.Browser()
     br.set_handle_robots(False)   # no robots
     br.set_handle_refresh(False)  # can sometimes hang without this
-    response = br.open("https://login.yahoo.com/config/login?.src=fpctx&.intl=us&.lang=en-US&.done=https%3A%2F%2Fwww.yahoo.com")
-    br.form = list(br.forms())[0]
+    response = br.open("https://www.instagram.com/accounts/login/?source=auth_switcher")
+    for form in br.forms():
+        print("Form name:"+ form.name)
+        print (form)
     # for control in br.form.controls:
     #     print(control)
     #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
     br.form['username'] = email
-    result = br.submit(id = 'login-signin')
+    br.form['password'] = password
+    result = br.submit()
     print(result)
     print(result.geturl())
     response1 = br.open(result.geturl())
@@ -114,5 +117,5 @@ def yahoo_form_filler(email, password):
     #     print(control)
     #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
 
-print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
-yahoo_form_filler("tarabite@yahoo.com","gobuckeyes")
+#print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
+instagram_form_filler("tarabite@yahoo.com","gobuckeyes")
