@@ -1,6 +1,6 @@
 import mechanize
 import sqlite3
-import requests
+import requests, smtplib, ssl
 from flask import Flask, render_template, request
 app = Flask(__name__)
 @app.errorhandler(500)
@@ -38,9 +38,9 @@ def hybrid( ):
     charset = request.form['charset']
     website = request.form['website']
     return render_template('hybrid.html')
-@app.route('/hello')
-def hello():
-    return 'hello world!'
+@app.route('/phising')
+def phising():
+    return render_template('phising.html')
 @app.route('/run_brute_force', methods = ['POST','GET'])
 def brute_force_alg():
     #username, website, passwordlength, lengthparam, charset
@@ -96,6 +96,26 @@ def dictionary_alg():
 
 @app.route('/run_passwordchecker', methods = ['POST', 'GET'])
 def passwordchecker_alg():
+    return render_template('passwordstrengthchecker.html')
+@app.route('/run_phising', methods = ['POST','GET'])
+def phising_alg():
+    port = 587  # For starttls
+    smtp_server = "smtp.gmail.com"
+    sender_email = "actualnotfaketwitter@gmail.com"
+    receiver_email = "johnson.6973@osu.edu"
+    password = "g0buckeyes"
+    SUBJECT = "URGENT: PASSWORD COMPROMISED"
+    TEXT = "Valued User,\nWe have detected suspicious activity on you're account. Update your password to avoid your data being compromised."
+    message = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)
+    context = ssl.create_default_context()
+    with smtplib.SMTP(smtp_server, port) as server:
+        server.ehlo()  # Can be omitted
+        server.starttls(context=context)
+        server.ehlo()  # Can be omitted
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message)
+
+    print("sent")
     return render_template('passwordstrengthchecker.html')
 
 # fill the form for facebook profiles
@@ -153,29 +173,29 @@ def reddit_form_filler(email, password):
     # # result = br.submit(id='u_0_2')
     # # return result.geturl() == "https://www.facebook.com/"
     #
-def instagram_form_filler(email, password):
-    br = mechanize.Browser()
-    br.set_handle_robots(False)   # no robots
-    br.set_handle_refresh(False)  # can sometimes hang without this
-    response = br.open("https://www.instagram.com/accounts/login/?source=auth_switcher")
-    for form in br.forms():
-        print("Form name:"+ form.name)
-        print (form)
-    # for control in br.form.controls:
-    #     print(control)
-    #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
-    br.form['username'] = email
-    br.form['password'] = password
-    result = br.submit()
-    print(result)
-    print(result.geturl())
-    response1 = br.open(result.geturl())
+# def instagram_form_filler(email, password):
+#     br = mechanize.Browser()
+#     br.set_handle_robots(False)   # no robots
+#     br.set_handle_refresh(False)  # can sometimes hang without this
+#     response = br.open("https://www.instagram.com/accounts/login/?source=auth_switcher")
+#     for form in br.forms():
+#         print("Form name:"+ form.name)
+#         print (form)
+#     # for control in br.form.controls:
+#     #     print(control)
+#     #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
+#     br.form['username'] = email
+#     br.form['password'] = password
+#     result = br.submit()
+#     print(result)
+#     print(result.geturl())
+#     response1 = br.open(result.geturl())
     # br.form = list(br.forms())[0]
     # for control in br.form.controls:
     #     print(control)
     #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
 
 #print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
-instagram_form_filler("tarabite@yahoo.com","gobuckeyes")
+#instagram_form_filler("tarabite@yahoo.com","gobuckeyes")
 #print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
 #yahoo_form_filler("tarabite@yahoo.com","gobuckeyes")
