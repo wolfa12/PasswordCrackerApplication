@@ -22,7 +22,7 @@ def hybrid():
     cur = con.cursor()
     cur.execute("select * from PASSWORDS")
     rows = cur.fetchall()
-    return render_template('hybrid.html', rows = rows)    
+    return render_template('hybrid.html', rows = rows)
 @app.route('/dictionary')
 def dictionary():
     con = sqlite3.connect("passwords1.db")
@@ -31,9 +31,7 @@ def dictionary():
     cur.execute("select * from PASSWORDS")
     rows = cur.fetchall()
     return render_template('dictionary.html', rows = rows)
-@app.route('/rainbow')
-def rainbow():
-    return render_template('rainbow.html')
+
 @app.route('/passwordstrengthchecker')
 def passwordstrengthchecker():
     return render_template('passwordstrengthchecker.html')
@@ -142,22 +140,22 @@ def phising_alg():
     """
     # Record the MIME type text/html
     HTML_BODY = MIMEText(BODY, 'html')
- 
+
     # Attach parts into message container.
     # According to RFC 2046, the last part of a multipart message, in this case
     # the HTML message, is best and preferred.
     MESSAGE.attach(HTML_BODY)
- 
+
     # The actual sending of the e-mail
     server = smtplib.SMTP('smtp.gmail.com:587')
- 
+
     # Print debugging output when testing
     if __name__ == "__main__":
         server.set_debuglevel(1)
- 
+
     # Credentials (if needed) for sending the mail
     password = "g0buckeyes"
- 
+
     server.starttls()
     server.login("actualnotfaketwitter@gmail.com",password)
     server.sendmail("actualnotfaketwitter@gmail.com", [request.form["accusername"]], MESSAGE.as_string())
