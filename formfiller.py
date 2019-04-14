@@ -15,6 +15,14 @@ def home():
 @app.route('/bruteforce')
 def bruteforce():
     return render_template('bruteforce.html')
+@app.route('/hybrid')
+def hybrid():
+    con = sqlite3.connect("passwords1.db")
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    cur.execute("select * from PASSWORDS")
+    rows = cur.fetchall()
+    return render_template('hybrid.html', rows = rows)    
 @app.route('/dictionary')
 def dictionary():
     con = sqlite3.connect("passwords1.db")
@@ -29,8 +37,8 @@ def rainbow():
 @app.route('/passwordstrengthchecker')
 def passwordstrengthchecker():
     return render_template('passwordstrengthchecker.html')
-@app.route('/hybrid', methods = ['POST', 'GET'])
-def hybrid():
+@app.route('/run_hybrid', methods = ['POST', 'GET'])
+def hybrid_alg():
     con = sqlite3.connect("passwords1.db")
     con.row_factory = sqlite3.Row
     cur = con.cursor()
@@ -38,7 +46,6 @@ def hybrid():
     rows = cur.fetchall()
     form = request.form
     username = request.form['accusername']
-    charset = request.form['charset']
     website = request.form['website']
     return render_template('hybrid.html')
 @app.route('/phising')
