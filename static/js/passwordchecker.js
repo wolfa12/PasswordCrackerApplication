@@ -12,5 +12,6 @@ function validateform(){
     }
     if(password.indexOf(' ') >= 0){
         alert("Password must not contain spaces!")
+        return false;
     }
 }
