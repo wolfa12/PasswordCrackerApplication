@@ -1,4 +1,5 @@
 import mechanize
+from passwordchecker import *
 import sqlite3
 from flask import Flask, render_template, request
 app = Flask(__name__)
@@ -84,9 +85,25 @@ def dictionary_alg():
     else:
         return render_template('500_bf.html')
 
-@app.route('/run_passwordchecker', methods = ['POST', 'GET'])
+@app.route('/run_passwordstrengthchecker', methods = ['POST', 'GET'])
 def passwordchecker_alg():
-    return render_template('passwordstrengthchecker.html')
+    print("got here")
+    password = request.form["password"]
+    passwordChecker = PasswordChecker()
+    result = passwordChecker.check_password(password)
+    if(result==0 or result==1):
+        return render_template('veryweak.html')
+    elif(result==2):
+        return render_template('weak.html')
+    elif (result == 3):
+        return render_template('medium.html')
+    elif (result == 4):
+        return render_template('strong.html')
+    elif (result == 5):
+        return render_template('verystrong.html')
+    else:
+        print(result)
+        return render_template('password_checker_error.html')
 
 # fill the form for facebook profiles
 def facebook_form_filler(email, password):

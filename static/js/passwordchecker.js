@@ -10,4 +10,7 @@ function validateform(){
         alert("Please fill out all fields");
         return false;
     }
+    if(password.indexOf(' ') >= 0){
+        alert("Password must not contain spaces!")
+    }
 }
