@@ -133,7 +133,6 @@ def dictionary_alg():
 @app.route('/run_passwordstrengthchecker', methods = ['POST', 'GET'])
 def passwordchecker_alg():
 
-    print("got here")
     password = request.form["password"]
     passwordChecker = PasswordChecker()
     result = passwordChecker.check_password(password)
@@ -148,7 +147,6 @@ def passwordchecker_alg():
     elif (result == 5):
         return render_template('verystrong.html')
     else:
-        print(result)
         return render_template('password_checker_error.html')
 
     return render_template('passwordstrengthchecker.html')

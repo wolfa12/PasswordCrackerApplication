@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Phising</title>
+    <title>Phishing</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='../static/styles/main.css')}}"/>
     <!-- <link rel="stylesheet" href="../static/styles/main.css" /> -->
@@ -9,10 +9,10 @@
     <script async src="../static/js/index.js"></script>
   </head>
   <body>
-    <h1>Phising</h1>
+    <h1>Phishing</h1>
     <form action =  "http://localhost:5000/run_phising" method = "POST" onsubmit = "return validateform()" name = "phisingform">
         <div class="form-group form-formatting bold-font">
-            <label for="accusername">Give an address to send a phising email to</label>
+            <label for="accusername">Give an address to send a phishing email to</label>
             <input type="email" class="form-control" id="accusername" placeholder="name@example.com" name="accusername">
         </div>
     
