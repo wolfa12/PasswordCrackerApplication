@@ -1,4 +1,6 @@
 import mechanize
+import praw
+import datetime as dt
 from passwordchecker import *
 import sqlite3
 import requests, smtplib, ssl
@@ -32,14 +34,7 @@ def dictionary():
     rows = cur.fetchall()
     return render_template('dictionary.html', rows = rows)
 
-@app.route('/redditscrape')
-def redditscrape():
-    return render_template('redditscrape.html')
-
-@app.route('/run_redditscraper')
-def run_redditscraper():
-    # print("Run the scraper!")
-    return 'Click.'
+# def findthings():
 
 @app.route('/passwordstrengthchecker')
 def passwordstrengthchecker():
@@ -135,7 +130,7 @@ def dictionary_alg():
             password = word
             break
     if password != None:
-        return render_template('result.html',username = "tarabite@yahoo.com", password = password)
+        return render_template('result.html', username = "tarabite@yahoo.com", password = password)
     else:
         return render_template('500_bf.html')
 
@@ -261,13 +256,13 @@ def yahoo_form_filler(email, password):
     #     print(control)
     #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
 
-# fill the form for reddit profile
-def reddit_form_filler(email, password):
-    # attempt with requests
-    s = requests.Session()
-    l = s.post('http://reddit.com/login', {'user':email,'passwd':password,'rem':True})
-    r = s.get('http://reddit.com/login')
-    print(r.json())
+# # fill the form for reddit profile
+# def reddit_form_filler(email, password):
+#     # attempt with requests
+#     s = requests.Session()
+#     l = s.post('http://reddit.com/login', {'user':email,'passwd':password,'rem':True})
+#     r = s.get('http://reddit.com/login')
+#     print(r.json())
     # br = mechanize.Browser()
     # br.set_handle_robots(False)
     # br.set_handle_refresh(False)
@@ -304,6 +299,30 @@ def reddit_form_filler(email, password):
     # for control in br.form.controls:
     #     print(control)
     #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
+
+@app.route('/redditscrape')
+def redditscrape():
+    return render_template('redditscrape.html')
+
+@app.route('/run_redditscraper', methods = ['POST','GET'])
+def run_redditscraper():
+    # return render_template('errorpage.html')
+    username = request.form["username"]
+    reddit = praw.Reddit(client_id='qIv6ZQYkFNpvAQ', \
+                         client_secret='IkWl2ulNzZrTpBjCQipQzskq-9A', \
+                         user_agent='passwordcracker', \
+                         username='pwcracker_throwaway', \
+                         password='cse447112!')
+    comments = []
+    for comment in reddit.redditor(username).comments.new(limit=10):
+        comments.append(comment.body)#.split('\n', 1)[0][:200])
+    # print(submission.url)    # Output: the URL the submission points to
+    #                          # or the submission's URL if it's a self post
+    submissions = []
+    for topsub in reddit.redditor(username).submissions.top('all', limit=10):
+        submissions.append(topsub.title)
+    # file.close()
+    return render_template('scrape_data.html', username=username, comments=comments, submissions=submissions)
 
 print(facebook_form_filler("tarabite1998@gmail.com","ggggggoo"))
 #instagram_form_filler("tarabite@yahoo.com","gobuckeyes")
