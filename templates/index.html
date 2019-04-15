@@ -3,48 +3,88 @@
   <head>
     <title>Home</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='../static/js/index.js')}}"/> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/js/index.js')}}"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='../static/styles/main.css')}}"/>
     <!-- <link rel="stylesheet" href="../static/styles/main.css" /> -->
-    <script async src="../static/js/index.js"></script>
+    <!-- <script async src="../static/js/index.js"></script> -->
   </head>
+
   <body>
-    <h1>Password Cracker</h1>
-    <a href="./bruteforce" class="card text-white bg-secondary mb-3 cards-extra">
-        <h5 class="card-header">Method</h5>
-        <div class="card-body">
-            <h5 class="card-title">Brute Force</h5>
-            <p class="card-text">Runs through all possible password combinations. Good for short passwords (ie keypads) with limited characters. See documentation for more details</p>
+    <!-- page title -->
+    <h1 class="my-4">Password Cracker</h1>
+
+    <!-- start of page stuff -->
+    <div class="container">
+      <div class="row">
+
+        <!-- brute force -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-0 shadow">
+            <div class="card-body text-center">
+              <h5 class="card-title mb-0">Brute Force</h5>
+              <hr>
+              <div class="card-text text-black-50">Runs through all possible password combinations. Good for short passwords (ie keypads) with limited characters.</div>
+              <hr>
+              <a class="btn btn-danger" href="./bruteforce">Try Brute Force</a>
+            </div>
+          </div>
         </div>
-    </a>
-    <a href="./dictionary" class="card text-white bg-secondary mb-3 cards-extra">
-        <h5 class="card-header">Method</h5>
-        <div class="card-body">
-            <h5 class="card-title">Dictionary</h5>
-            <p class="card-text">Good for regular accounts without many restrictions. Especially useful when information is already known about the target.  See documentation for more details</p>
+
+        <!-- dictionary -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-0 shadow">
+            <div class="card-body text-center">
+              <h5 class="card-title mb-0">Dictionary</h5>
+              <hr>
+              <div class="card-text text-black-50">Good for regular accounts without many restrictions. Especially useful when information is already known about the target.</div>
+              <hr>
+              <a class="btn btn-danger" href="./dictionary">Try Dictionary</a>
+            </div>
+          </div>
         </div>
-    </a>
-    <a href="hybrid" class="card text-white bg-secondary mb-3 cards-extra">
-        <h5 class="card-header">Method</h5>
-        <div class="card-body">
-            <h5 class="card-title">Hybrid</h5>
-            <p class="card-text">Similar use case to dictionary but is useful for passwords that have restrictions. See documentation for more details</p>
+
+        <!-- hybrid -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-0 shadow">
+            <div class="card-body text-center">
+              <h5 class="card-title mb-0">Hybrid</h5>
+              <hr>
+              <div class="card-text text-black-50">Similar use case to dictionary but is useful for passwords that have restrictions.</div>
+              <hr>
+              <a class="btn btn-danger" href="hybrid">Try Hybrid</a>
+            </div>
+          </div>
         </div>
-    </a>
-    <a href="./passwordstrengthchecker" class="card text-white bg-secondary mb-3 cards-extra">
-        <h5 class="card-header">Method</h5>
-        <div class="card-body">
-            <h5 class="card-title">Password Strength Checker</h5>
-            <p class="card-text">This tool is used in order to check the strength of a given password</p>
+
+        <!-- password strength checker -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-0 shadow">
+            <div class="card-body text-center">
+              <h5 class="card-title mb-0">Password Strength Checker</h5>
+              <hr>
+              <div class="card-text text-black-50">This tool is used in order to check the strength of a given password.</div>
+              <hr>
+              <a class="btn btn-danger" href="./passwordstrengthchecker">Try Password Strength Checker</a>
+            </div>
+          </div>
         </div>
-    </a>
-    <a href="phising" class="card text-white bg-secondary mb-3 cards-extra">
-        <h5 class="card-header">Method</h5>
-        <div class="card-body">
-            <h5 class="card-title">Phising Email</h5>
-            <p class="card-text">This methos attempts to get the user to provide the password via phising email.</p>
+
+        <!-- phishing email -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-0 shadow">
+            <div class="card-body text-center">
+              <h5 class="card-title mb-0">Phishing Email Generator</h5>
+              <hr>
+              <div class="card-text text-black-50">This tool attempts to get the user to provide the password via phishing email.</div>
+              <hr>
+              <a class="btn btn-danger" href="phising">Try Phishing Email Generator</a>
+            </div>
+          </div>
         </div>
-    </a>
+
+      </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
