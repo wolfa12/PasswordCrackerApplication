@@ -12,14 +12,28 @@
   <body>
     <h1>Here is the data found on {{username}}</h1>
 
-    <h3>{{username}}'s top 10 comments</h3>
+    <h2>The top {{ top_countcommlen }} common words in comments were:</h2>
+    <ul>
+      {% for comm in top_countcomm %}
+      <li>{{ comm }}</li>
+      {% endfor %}
+    </ul>
+
+    <h2>The top {{ top_countsublen }} common words in submissions were:</h2>
+    <ul>
+      {% for sub in top_countsub %}
+      <li>{{ sub }}</li>
+      {% endfor %}
+    </ul>
+
+    <h3>{{username}}'s top {{int_comm}} comments</h3>
     <ul>
       {% for comment in comments %}
       <li>{{ comment }}</li>
       {% endfor %}
     </ul>
 
-    <h3>{{username}}'s top 10 submissions</h3>
+    <h3>{{username}}'s top {{int_sub}} submissions</h3>
     <ul>
       {% for submissions in submissions %}
       <li>{{ submissions }}</li>

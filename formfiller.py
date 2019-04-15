@@ -7,6 +7,7 @@ import requests, smtplib, ssl
 from flask import Flask, render_template, request
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from collections import Counter
 app = Flask(__name__)
 @app.errorhandler(500)
 def internal_service_error_bf(e):
@@ -256,50 +257,6 @@ def yahoo_form_filler(email, password):
     #     print(control)
     #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
 
-# # fill the form for reddit profile
-# def reddit_form_filler(email, password):
-#     # attempt with requests
-#     s = requests.Session()
-#     l = s.post('http://reddit.com/login', {'user':email,'passwd':password,'rem':True})
-#     r = s.get('http://reddit.com/login')
-#     print(r.json())
-    # br = mechanize.Browser()
-    # br.set_handle_robots(False)
-    # br.set_handle_refresh(False)
-    # response = br.open("https://www.reddit.com")
-    # br.form = list(br.forms())[0]
-    #
-    #
-    # # response = br.open("https://www.facebook.com")
-    # # br.form = list(br.forms())[0]
-    # # br.form.set_all_readonly(False)
-    # # br.form['email'] = email
-    # # br.form['pass'] = password
-    # # result = br.submit(id='u_0_2')
-    # # return result.geturl() == "https://www.facebook.com/"
-    #
-# def instagram_form_filler(email, password):
-#     br = mechanize.Browser()
-#     br.set_handle_robots(False)   # no robots
-#     br.set_handle_refresh(False)  # can sometimes hang without this
-#     response = br.open("https://www.instagram.com/accounts/login/?source=auth_switcher")
-#     for form in br.forms():
-#         print("Form name:"+ form.name)
-#         print (form)
-#     # for control in br.form.controls:
-#     #     print(control)
-#     #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
-#     br.form['username'] = email
-#     br.form['password'] = password
-#     result = br.submit()
-#     print(result)
-#     print(result.geturl())
-#     response1 = br.open(result.geturl())
-    # br.form = list(br.forms())[0]
-    # for control in br.form.controls:
-    #     print(control)
-    #     print("type=%s, name=%s value=%s" % (control.type, control.name, br[control.name]))
-
 @app.route('/redditscrape')
 def redditscrape():
     return render_template('redditscrape.html')
@@ -308,23 +265,49 @@ def redditscrape():
 def run_redditscraper():
     # return render_template('errorpage.html')
     username = request.form["username"]
+    commentnum = request.form["commentnum"]
+    subnum = request.form["subnum"]
+    str_topcomm = request.form["str_topcomm"]
+    str_topsub = request.form["str_topsub"]
+    # set up reddit login
     reddit = praw.Reddit(client_id='qIv6ZQYkFNpvAQ', \
                          client_secret='IkWl2ulNzZrTpBjCQipQzskq-9A', \
                          user_agent='passwordcracker', \
                          username='pwcracker_throwaway', \
                          password='cse447112!')
+    # find the most common words in comments and submissions
+    # find all the comments the user wants
+    comment_words = []
     comments = []
-    for comment in reddit.redditor(username).comments.new(limit=10):
-        comments.append(comment.body)#.split('\n', 1)[0][:200])
+    int_comm = int(commentnum)
+    num_topcomm = int(str_topcomm)
+    num_topsub = int(str_topsub)
+    for comment in reddit.redditor(username).comments.new(limit=int_comm):
+        comments.append(comment.body)
+        words = comment.body.split()
+        for word in words:
+            comment_words.append(word)
+        #.split('\n', 1)[0][:200])
+    comm_counts = Counter(comment_words)
+    top_countcomm = comm_counts.most_common(num_topcomm)
+    top_countcommlen = len(top_countcomm)
     # print(submission.url)    # Output: the URL the submission points to
     #                          # or the submission's URL if it's a self post
+    # find all the submissions the user wants
     submissions = []
-    for topsub in reddit.redditor(username).submissions.top('all', limit=10):
+    sub_words = []
+    int_sub = int(subnum)
+    for topsub in reddit.redditor(username).submissions.top('all', limit=int_sub):
         submissions.append(topsub.title)
-    # file.close()
-    return render_template('scrape_data.html', username=username, comments=comments, submissions=submissions)
+        words = topsub.title.split()
+        for word in words:
+            sub_words.append(word)
+    sub_counts = Counter(sub_words)
+    top_countsub = sub_counts.most_common(num_topsub)
+    top_countsublen = len(top_countsub)
+    return render_template('scrape_data.html', username=username, comments=comments, submissions=submissions, int_comm=int_comm, int_sub=int_sub, top_countcommlen=top_countcommlen, top_countcomm=top_countcomm, top_countsublen=top_countsublen, top_countsub=top_countsub)
 
-print(facebook_form_filler("tarabite1998@gmail.com","ggggggoo"))
+# print(facebook_form_filler("tarabite1998@gmail.com","ggggggoo"))
 #instagram_form_filler("tarabite@yahoo.com","gobuckeyes")
 #print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
 #yahoo_form_filler("tarabite@yahoo.com","gobuckeyes")
