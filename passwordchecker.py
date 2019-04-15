@@ -2,7 +2,7 @@
 
 class PasswordChecker:
     count = 0
-#checks the password against length, uppercase, lowercase, digits, and symbols
+#checks the password against length, uppercase, lowercase, digits, symbols, and if there are consecutive sequential numbers
     def check_password(self, user_password):
             isLength = self.check_password_length(user_password)
             isUppercase = self.check_uppercase(user_password)
