@@ -32,6 +32,15 @@ def dictionary():
     rows = cur.fetchall()
     return render_template('dictionary.html', rows = rows)
 
+@app.route('/redditscrape')
+def redditscrape():
+    return render_template('redditscrape.html')
+
+@app.route('/run_redditscraper')
+def run_redditscraper():
+    # print("Run the scraper!")
+    return 'Click.'
+
 @app.route('/passwordstrengthchecker')
 def passwordstrengthchecker():
     return render_template('passwordstrengthchecker.html')
@@ -40,7 +49,7 @@ def hybrid_alg():
     username = request.form["accusername"]
     dictionaryChunk = request.form["dictionary"]
     dictionary = dictionaryChunk.split()
-    i = 0; 
+    i = 0;
     while i < len(dictionary):
         firstword = dictionary[i]
         j = i + 1;
@@ -59,7 +68,7 @@ def hybrid_alg():
             if 'o' in comboword:
                 comboword.replace('o', '0')
 
-        
+
             found = facebook_form_filler(username, comboword)
             if found:
                 password = word
