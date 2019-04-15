@@ -9,9 +9,15 @@ class PasswordChecker:
             isLowercase = self.check_lowercase(user_password)
             isSymbol = self.check_symbol(user_password)
             isDigit = self.check_digits(user_password)
+            isSequence = self.check_digit_sequence(user_password)
+            print(isSequence)
 
             if(isLength):
                 self.count +=1
+            if not (isSequence):
+                self.count +=1
+            else:
+                self.count -=1
             if(isUppercase):
                 print("isssupercase")
                 self.count +=1
@@ -24,6 +30,7 @@ class PasswordChecker:
             if (isDigit):
                 print("isssdigit")
                 self.count += 1
+
 
 
             return self.count
@@ -94,5 +101,26 @@ class PasswordChecker:
         print(isChecked)
         return isChecked
 
+    def check_digit_sequence(self, s):
+        pos = 0
+        sequence = []
+        while pos != len(s):
+            try:
+                value = int(s[pos])
+            except ValueError:
+                pos += 1
+                sequence = []
+                continue
 
+            if not sequence:
+                sequence.append(value)
+            elif sequence[-1] + 1 == value:
+                sequence.append(value)
+                if len(sequence) == 3:
+                    return sequence
+            else:
+                sequence = []
+            pos += 1
+
+        return []
 

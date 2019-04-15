@@ -136,15 +136,16 @@ def passwordchecker_alg():
     password = request.form["password"]
     passwordChecker = PasswordChecker()
     result = passwordChecker.check_password(password)
+    print(result)
     if(result==0 or result==1):
         return render_template('veryweak.html')
     elif(result==2):
         return render_template('weak.html')
-    elif (result == 3):
+    elif (result == 3 or result == 4):
         return render_template('medium.html')
-    elif (result == 4):
-        return render_template('strong.html')
     elif (result == 5):
+        return render_template('strong.html')
+    elif (result == 6):
         return render_template('verystrong.html')
     else:
         return render_template('password_checker_error.html')
