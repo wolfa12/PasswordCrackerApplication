@@ -307,7 +307,7 @@ def run_redditscraper():
     top_countsublen = len(top_countsub)
     return render_template('scrape_data.html', username=username, comments=comments, submissions=submissions, int_comm=int_comm, int_sub=int_sub, top_countcommlen=top_countcommlen, top_countcomm=top_countcomm, top_countsublen=top_countsublen, top_countsub=top_countsub)
 
-# print(facebook_form_filler("tarabite1998@gmail.com","ggggggoo"))
+print(facebook_form_filler("tarabite1998@gmail.com","ggggggoo"))
 #instagram_form_filler("tarabite@yahoo.com","gobuckeyes")
 #print(facebook_form_filler("tarabite@yahoo.com","ggggggoo"))
 #yahoo_form_filler("tarabite@yahoo.com","gobuckeyes")
