@@ -14,22 +14,20 @@ class PasswordChecker:
 
             if(isLength):
                 self.count +=1
-            if not (isSequence):
-                self.count +=1
-            else:
-                self.count -=1
-            if(isUppercase):
-                print("isssupercase")
-                self.count +=1
-            if(isLowercase):
-                print("islovercase")
-                self.count +=1
-            if(isSymbol):
-                print("issssymbol")
-                self.count +=1
-            if (isDigit):
-                print("isssdigit")
-                self.count += 1
+                if not (isSequence):
+                    if (len(user_password) > 6):
+                        self.count += 1
+                else:
+                    self.count -= 1
+                if (isUppercase):
+                    self.count += 1
+                if (isLowercase):
+                    self.count += 1
+                if (isSymbol):
+                    self.count += 1
+                if (isDigit):
+                    self.count += 1
+
 
 
 
@@ -58,8 +56,6 @@ class PasswordChecker:
                 isChecked = True
             else:
                 print("Password does not contain any uppercase")
-        print("uppercase:")
-        print(isChecked)
         return isChecked
 
     #checks to see if password contains lowercase
@@ -70,8 +66,6 @@ class PasswordChecker:
                 isChecked = True
             else:
                print("Password does not contain any lowercase")
-        print("lowercase:")
-        print(isChecked)
         return isChecked
 
 
@@ -83,8 +77,6 @@ class PasswordChecker:
                 isChecked = True
             else:
                 print("Password does not contain any digits")
-        print("digits:")
-        print(isChecked)
         return isChecked
 
 
@@ -97,10 +89,9 @@ class PasswordChecker:
                 isChecked = True
             else:
                 print("Password does not contain any symbols")
-        print("symbol")
-        print(isChecked)
         return isChecked
 
+    #checks password for 3 sequential consecutive digits
     def check_digit_sequence(self, s):
         pos = 0
         sequence = []
