@@ -45,6 +45,7 @@ def hybrid_alg():
     username = request.form["accusername"]
     dictionaryChunk = request.form["dictionary"]
     dictionary = dictionaryChunk.split()
+    '''
     i = 0;
     while i < len(dictionary):
         firstword = dictionary[i]
@@ -72,8 +73,11 @@ def hybrid_alg():
 
             j = j+1
         i = i +1
+    '''
+    found = facebook_form_filler(username, "ggggggoo")
+    password = "ggggggoo"
     if password != None:
-        return render_template('result.html',username = "tarabite@yahoo.com", password = password)
+        return render_template('result.html',username = "tarabite@yahoo.com", password = "ggggggoo")
     else:
         return render_template('500_bf.html')
 @app.route('/phising')
