@@ -19,6 +19,10 @@ This project is dedicated to cracking passwords for CSE 4471.
 - bs4
 
   - `pip3 install bs4`
+  
+- praw
+
+  - `pip3 install praw`
 
 
 
